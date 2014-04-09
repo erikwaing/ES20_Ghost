@@ -1,0 +1,56 @@
+\documentclass[11pt]{article}
+\usepackage{graphicx}    % needed for including graphics e.g. EPS, PS
+\topmargin -1.5cm        % read Lamport p.163
+\oddsidemargin -0.04cm   % read Lamport p.163
+\evensidemargin -0.04cm  % same as oddsidemargin but for left-hand pages
+\textwidth 16.59cm
+\textheight 21.94cm 
+%\pagestyle{empty}       % Uncomment if don't want page numbers
+\parskip 7.2pt           % sets spacing between paragraphs
+%\renewcommand{\baselinestretch}{1.5} % Uncomment for 1.5 spacing between lines
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{verbatim}
+\parindent 0pt		 % sets leading space for paragraphs
+\author{Erik Waingarten, Matt Susskind, Fermi Ma}
+\title{Ghost}
+
+
+\begin{document}         
+\maketitle
+
+\section{Game}
+
+Given a language, two people alternate picking letters such that the sequence is the prefix of a word in that language. If the sequence ever spells a valid word, the one who said the final letter loses. If at any point the current player doesn't believe there is a word that can be spelled with the current sequence, they can challenge the other player to produce a valid word.
+
+\section{Generalization}
+
+We assume that the language is given by a regular expression. People always spell sequences that are prefixes of a word in the language.
+
+The question here is: Given a regular language, does player 1 have a winning strategy?
+
+\section{PSPACE-hard reduction}
+
+The reduction is from directed vertex Geography. Suppose we have a directed graph $G$ with starting node $s$. We will build an NFA that will give a regular expression to play Ghost with. We will build the NFA using the graph $G$. First, we label all the edges of $G$ arbritrarily. These will represent transitions in the NFA. 
+
+For each node, $x \in G$, suppose $x$ has some outgoing edge. We make another copy of the graph $G$, called $G_x$. This graph has the same edge labels as the general $G$. If $x$ has a directed edge with another node $a$ with label $l$, then we will make a transition from $x$ to $a' \in G_x$ with transition $l$. We do this for each neighbor of $x$, $a$. Additionally, we make $x' \in G_x$ an accept state. 
+
+If $x \in G$ has no outgoing edges, then $x$ in the NFA will have a transition to an accept state $y$ with all the labels.
+
+From this NFA, we can make a regular expression in polynomial time.
+
+Each time a player makes a move in Generalized Geography, the edge will correspond to a label in the NFA. If we follow the computation of the NFA, we will travel to the next edge. If any player reaches a node with no outgoing edges in Generalized Geography, then this corresponds to a state in the NFA that is connected to an accepting state by all the labels. Then, no matter what the next person says, he loses, since he ends up in an accept state in the NFA, and so that word was part of the language.
+
+Suppose a player makes a move to an edge that does have outgoing edges. We follow the computation on the regular NFA. At the same time, we transition to the copy of the graph that tests whether we ever return to that node. Since that node is an accept state, we want to avoid returning, otherwise we lose. This is the right thing to do since in generalized geography, we removed the vertex from the graph. 
+
+\section{Possible Directions}
+
+So first, we are having trouble showing that this problem is in PSPACE. The obvious algorithm would be to reduce to totally quantified boolean formula, except that for regular languages, the sequence of the $\forall , \exists, \forall, \exists$ could be arbritrarily long. Ideas?
+
+Also, it would be interesting to see if we could build arbritrary regular languages inside already established languages. Some languages allow for certain ``regular" operations like the ``un" in the english can be appended any number of times before a certain word, we can also concatenate words with a dash? This isn't something we have completely figured out yet, but it would be sweet if we could say, for example: ``Ghost in Spanish is PSPACE-complete!"
+
+The regular languages inside other languages do not need to be all of them, just the ones that we could create with this construction. In fact, all our languages used in our reduction are finite, so we don't even need to say regular languages.
+
+Also, a consequence of this is that Ghost in any higher level languages like context-free languages are also PSPACE-hard.
+
+\end{document}
