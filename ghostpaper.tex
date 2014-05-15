@@ -61,13 +61,27 @@ We consider the following instance of Ghost: The game is played over a given sub
 \begin{theorem}Determining whether player 1 has a winning strategy when Ghost is played over subsets of the German language is PSPACE-hard.
 \end{theorem}
 
-\begin{proof} The reduction is very similar in structure to the reduction used in the proof of Theorem 1. However, here we consider Planar Generalized Geography, which is still PSPACE-hard [1]. Given an instance of Planar Generalized Geography, we can four-color the graph in polynomial time [2]. Each edge is then labeled with the color of the vertex it points to. Given this labeling of the graph, we build a corresponding NFA following the procedure in the proof of Theorem 1. The only change we make is that the labels in the graph are mapped to German nouns of odd length that start with different letters. We choose the nouns ``krankenhaus" (hospital), ``wiedervereinigung" (reunification), ``tod" (death), and ``m{\"a}dchen" (girl). Thus, all edges that are colored one color will give transitions labeled with ‚Äúwort‚Äù, for example. 
+\begin{proof} The reduction is very similar in structure to the reduction used in the proof of Theorem 1. However, here we consider Planar Generalized Geography, which is still PSPACE-hard [1]. Given an instance of Planar Generalized Geography, we can four-color the graph in polynomial time [2]. Each edge is then labeled with the color of the vertex it points to. Given this labeling of the graph, we build a corresponding NFA following the procedure in the proof of Theorem 1. The only change we make is that the labels in the graph are mapped to German nouns of odd length that start with different letters. We choose the nouns ``krankenhaus" (hospital), ``wiedervereinigung" (reunification), ``tod" (death), and ``m{\"a}dchen" (girl). Thus, all edges that are colored one color will give transitions labeled with ``tod"Äù, for example. 
 
 	The German language allows nouns to be concatenated, so the subset of words that are accepted in the NFA are grammatically valid German words. Since the words are all of odd length, when the word finishes, the next player can pick the next word. This corresponds to picking an edge in the NFA, except each transition may not take multiple turns. Also, since the starting letter of the words are different, once you start a word, the whole word is specified. This construction builds an NFA that accepts a subset of the words in the German language. 
 \end{proof}
 \section{Conclusion}
 
 With this project, we determined that playing Ghost over regular languages is PSPACE-hard, and we used the same reduction structure to show that Ghost played over subsets of the German language is also PSPACE-hard. The first result is somewhat abstract, as Ghost is generally not played over arbitrary regular languages. However, the second result indicates that there may be other real-world languages that Ghost is hard to play over.
+
+
+References
+
+[1] D. Lichtenstein and M. Sipser, ``GO Is Polynomial-Space Hard," Journal of the ACM. 27 (1980) 393-401. 
+
+[2] N. Robertson, D. Sanders, P. Seymour, R. Thomas, ``Efficiently four-coloring planar graphs,"  Proc. 28th ACM Symposium on Theory of Computing (STOC). (1996)
+
+[3] M. Sipser.: Introduction to the Theory of Computation. PWS Publishing Company
+(1997)
+
+[4] TranslationDirectory: German. http://www.translationdirectory.com/article693.htm (2009)
+
+
 \end{document}
 
 
