@@ -43,7 +43,7 @@ Players 1 and 2 take turns moving a token from vertex to vertex in a directed gr
 
 We will use the graph $G$ to build a non-deterministic finite automaton (NFA) that will give a regular expression to play Ghost with. This construction will give an equivalence between games played in Generalized Geography and Ghost, so a winning strategy in one will correspond to a winning strategy in the other and vice versa. To do so, we first label all the edges of $G$ arbitrarily. These labels will represent transitions in the NFA.
 
-We start building the NFA by redrawing the graph $G$, except as a diagram for the NFA. This means that vertices of $G$ are drawn as states of the NFA, and the directed edges turn into transitions between states where transitions are labeled with the same labels given to the corresponding edges inG. We then extend construction: for each node $x\in G$, we make another copy of $G$, which we call $G_x$, and make it part of the NFA. For any directed edge $(x,a)$ pointing away from $x$ with label $l$, we make a transition from x to a' in $G_x$ with label $l$, where the prime denotes a corresponding vertex in $G_x$. In addition, we make $x' \in G_x$  the only accept state among the states in $G_x$. If $x\in G$ has no outgoing edges, then corresponding $x$ state in the NFA will have a transition to an accept state $y$ labeled with all possible labels. 
+We start building the NFA by redrawing the graph $G$, except as a diagram for the NFA. This means that vertices of $G$ are drawn as states of the NFA, and the directed edges turn into transitions between states where transitions are labeled with the same labels given to the corresponding edges in $G$. We then extend construction: for each node $x\in G$, we make another copy of $G$, which we call $G_x$, and make it part of the NFA. For any directed edge $(x,a)$ pointing away from $x$ with label $l$, we make a transition from $x$ to $a'$ in $G_x$ with label $l$, where the prime denotes a corresponding vertex in $G_x$. In addition, we make $x' \in G_x$  the only accept state among the states in $G_x$. If $x\in G$ has no outgoing edges, then corresponding $x$ state in the NFA will have a transition to an accept state $y$ labeled with all possible labels. 
 
 From this NFA, we can generate an equivalent regular expression in polynomial time [3].
 
@@ -54,7 +54,7 @@ For the other direction of the equivalence, a winning strategy in Ghost (played 
 Thus, the proof follows. 
 \end{proof}
 
-It turns out that the idea behind the proof of Theorem 1 can be used to show that Ghost is PSPACE-hard when played on subsets of the German language. We choose to focus on the German language because in German, multiple nouns can always be concatenated together to make new nouns. For example, ``wort", ``band", and ``teil" are all valid German nouns, and thus concatenations such as “wortband” and “wortteilband” are also valid nouns [4].
+It turns out that the idea behind the proof of Theorem 1 can be used to show that Ghost is PSPACE-hard when played on subsets of the German language. We choose to focus on the German language because in German, multiple nouns can always be concatenated together to make new nouns. For example, ``wort", ``band", and ``teil" are all valid German nouns, and thus concatenations such as “wortband” and “wortteilband” are also valid nouns [4]. Therefore, we can describe subsets of the German language with regular expressions.
 
 We consider the following instance of Ghost: The game is played over a given subset of the German language. Does player 1 have a winning strategy if he/she is first to pick a letter?
 
@@ -63,14 +63,14 @@ We consider the following instance of Ghost: The game is played over a given sub
 
 \begin{proof} The reduction is very similar in structure to the reduction used in the proof of Theorem 1. However, here we consider Planar Generalized Geography, which is still PSPACE-hard [1]. Given an instance of Planar Generalized Geography, we can four-color the graph in polynomial time [2]. Each edge is then labeled with the color of the vertex it points to. Given this labeling of the graph, we build a corresponding NFA following the procedure in the proof of Theorem 1. The only change we make is that the labels in the graph are mapped to German nouns of odd length that start with different letters. We choose the nouns ``krankenhaus" (hospital), ``wiedervereinigung" (reunification), ``tod" (death), and ``m{\"a}dchen" (girl). Thus, all edges that are colored one color will give transitions labeled with ``tod"��, for example. 
 
-	The German language allows nouns to be concatenated, so the subset of words that are accepted in the NFA are grammatically valid German words. Since the words are all of odd length, when the word finishes, the next player can pick the next word. This corresponds to picking an edge in the NFA, except each transition may not take multiple turns. Also, since the starting letter of the words are different, once you start a word, the whole word is specified. This construction builds an NFA that accepts a subset of the words in the German language. 
+	The German language allows nouns to be concatenated, so the subset of words that are accepted in the NFA are grammatically valid German words. Since the words are all of odd length, when the word finishes, the next player can pick the next word. This corresponds to picking an edge in the NFA, except each transition may take multiple turns. Also, since the starting letter of the words are different, once you start a word, the whole word is specified. This construction builds an NFA that accepts a subset of the words in the German language. 
 \end{proof}
 \section{Conclusion}
 
-With this project, we determined that playing Ghost over regular languages is PSPACE-hard, and we used the same reduction structure to show that Ghost played over subsets of the German language is also PSPACE-hard. The first result is somewhat abstract, as Ghost is generally not played over arbitrary regular languages. However, the second result indicates that there may be other real-world languages that Ghost is hard to play over.
+We determined that playing Ghost over regular languages is PSPACE-hard, and we used the same reduction structure to show that Ghost played over subsets of the German language is also PSPACE-hard. The first result is somewhat abstract, as Ghost is generally not played over arbitrary regular languages. However, the second result indicates that there may be other real-world languages that Ghost is hard to play over.
 
 
-References
+\section{References}
 
 [1] D. Lichtenstein and M. Sipser, ``GO Is Polynomial-Space Hard," Journal of the ACM. 27 (1980) 393-401. 
 
