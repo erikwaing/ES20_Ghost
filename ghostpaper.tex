@@ -76,6 +76,13 @@ We consider the following instance of Ghost: The game is played over a given sub
 
 \begin{proof} The reduction is very similar in structure to the reduction used in the proof of Theorem 1. However, here we consider Planar Generalized Geography, which is still PSPACE-hard \cite{Sipser}. Given an instance of Planar Generalized Geography, we can four-color the graph in polynomial time \cite{planargraph}. Each edge is then labeled with the color of the vertex it points to. Given this labeling of the graph, we build a corresponding NFA following the procedure in the proof of Theorem 1. The only change we make is that the labels in the graph are mapped to German nouns of odd length that start with different letters. We choose the nouns ``krankenhaus" (hospital), ``wiedervereinigung" (reunification), ``tod" (death), and ``m{\"a}dchen" (girl). Thus, all edges that are colored one color will give transitions labeled with ``tod"��, for example. 
 
+\begin{figure}
+\centering
+\includegraphics[width=0.6\linewidth]{Ghost3.pdf}
+\caption{Corresponding NFA.}
+\label{fig:reduction}
+\end{figure}
+
 	The German language allows nouns to be concatenated, so the subset of words that are accepted in the NFA are grammatically valid German words. Since the words are all of odd length, when the word finishes, the next player can pick the next word. This corresponds to picking an edge in the NFA, except each transition may take multiple turns. Also, since the starting letter of the words are different, once you start a word, the whole word is specified. This construction builds an NFA that accepts a subset of the words in the German language. 
 \end{proof}
 \section{Conclusion}
