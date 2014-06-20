@@ -1,35 +1,79 @@
-\documentclass[11pt]{article}
-\usepackage{graphicx}    % needed for including graphics e.g. EPS, PS
-\topmargin -1.5cm        % read Lamport p.163
-\oddsidemargin -0.04cm   % read Lamport p.163
-\evensidemargin -0.04cm  % same as oddsidemargin but for left-hand pages
-\textwidth 16.59cm
-\textheight 21.94cm 
-%\pagestyle{empty}       % Uncomment if don't want page numbers
-\parskip 7.2pt           % sets spacing between paragraphs
-%\renewcommand{\baselinestretch}{1.5} % Uncomment for 1.5 spacing between lines
-\usepackage{amsmath}
-\usepackage{verbatim}
-\usepackage{amsfonts}
-\usepackage{amsthm}
-\usepackage{url}
-\parindent 0pt		 % sets leading space for paragraphs
-\author{Fermi Ma, Matt Susskind, and Erik Waingarten}
-\title{Playing Ghost in German is PSPACE-Hard}
 
-\newtheorem{theorem}{Theorem}
-\newtheorem{lemma}[theorem]{Lemma}
-\begin{document}         
+
+\documentclass[runningheads,a4paper]{llncs}
+
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+\usepackage{amsmath}
+%\usepackage{amsfonts}
+%\usepackage{amsthm}
+\usepackage{subfigure}
+%\usepackage{caption}
+%\usepackage{subcaption}
+%\usepackage{cite}
+\usepackage{hyperref}
+\usepackage{url}
+\urlstyle{same}
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+\makeatletter
+\let\c@lemma=\c@theorem
+\let\c@corollary=\c@theorem
+\let\c@fact=\c@theorem
+\makeatother
+
+\let\realendproof=\endproof
+\def\endproof{\hspace*{\fill}$\Box$\realendproof}
+
+
+\begin{document}
+
+\mainmatter  
+
+\title{Playing Ghost in German is Hard}
+
+\titlerunning{Playing Ghost in German is Hard}
+
+\author{Fermi Ma
+\and Matt Susskind \and Erik Waingarten}
+%
+\authorrunning{Fermi Ma \and Matt Susskind \and Erik Waingarten}
+% (feature abused for this document to repeat the title also on left hand pages)
+
+% the affiliations are given next; don't give your e-mail address
+% unless you accept that it will be published
+\institute{MIT Computer Science and Artificial Intelligence Laboratory,\\
+32 Vassar St., Cambridge, MA 02139, USA, \\
+\protect\url{{fermima,msuss,eaw}@mit.edu}}
+
+%
+% NB: a more complex sample for affiliations and the mapping to the
+% corresponding authors can be found in the file "llncs.dem"
+% (search for the string "\mainmatter" where a contribution starts).
+% "llncs.dem" accompanies the document class "llncs.cls".
+%
+
 \maketitle
 
 
+\begin{abstract}
+Ghost is hard
+\end{abstract}
+
+\keywords{algorithmic combinatorial game theory, mathematical games and puzzles, computational complexity}
+
 \section{Introduction}
 
-	Ghost is a word game in which two players take turns adding a letter to the end of a word fragment. 
+Ghost is a word game in which two players take turns adding a letter to the end of a word fragment. 
 
 	Our first result is that given a regular language, it is PSPACE-hard to determine whether a given player has a winning strategy when playing with that language. We use the first result to prove an analogous result for a specific language. In particular, we show that when the game is played on subsets of the German language, it is PSPACE-hard to determine whether a given player has a winning strategy.
 
-\section{Game Mechanics}
+\section{Game Definitions}
+\label{Game Definitions}
+
+\subsection{Classic Dominoes}
 
 The game continues until a valid word is formed, at which point the last player to add a letter loses. At each turn, the current word fragment must be the prefix of some valid word. If a player believes that his/her opponent has made an invalid move (i.e. the move extends the word fragment so that it is no longer a valid prefix), he/she can use the turn to challenge the other player to name the full word. If the other player can name a valid word, he/she wins the game immediately, and otherwise the challenger wins. In addition, if both players are unaware that a word has just been completed, gameplay continues.
 
@@ -38,7 +82,7 @@ The game continues until a valid word is formed, at which point the last player 
 	If the entire set of words is considered to be the input to the problem, we can build a game tree which is of polynomial size of the input. A minimax algorithm can find a winning strategy in time polynomial in the size of the input. Thus, the game only becomes interesting from a computational standpoint when the number of words is large. This motivates the need to look at other ways of representing subsets of words. In this paper, we use regular expressions to represent sets of words that are much larger than the input size (the length of the regular expression). A regular expression can work like a dictionary which confirms whether words are in the language.
 
 \section{PSPACE-hardness of Ghost}
-We consider the following instance of the game:
+\label{PSPACE-hardness of Ghost}We consider the following instance of the game:
 
 Given any regular expression $R$ and players 1 and 2, does player 1 have a winning strategy in Ghost when played in the language generated by $R$? Player 1 starts.
 \begin{theorem} Determining whether player 1 has a winning strategy when Ghost is played over regular languages is PSPACE-hard.
@@ -58,14 +102,15 @@ From this NFA, we can generate an equivalent regular expression in polynomial ti
 \label{fig:instance}
 \end{figure}
 
+We claim that a winning strategy for Generalized Geography corresponds to a winning strategy for Ghost, played on the language generated by the corresponding NFA. Each move a player makes in Generalized Geography, corresponds to reading a label in the NFA. Once a player reaches a node in Generalized Geography that has no usable outgoing edges (and has thus won), the opposing player in the corresponding Ghost game is forced to move to an accept state in the following move, which spells out a word and loses the game for that player. 
+
+
 \begin{figure}
 \centering
 \includegraphics[width=0.6\linewidth]{Ghost2.pdf}
 \caption{Corresponding NFA.}
 \label{fig:reduction}
 \end{figure}
-
-We claim that a winning strategy for Generalized Geography corresponds to a winning strategy for Ghost, played on the language generated by the corresponding NFA. Each move a player makes in Generalized Geography, corresponds to reading a label in the NFA. Once a player reaches a node in Generalized Geography that has no usable outgoing edges (and has thus won), the opposing player in the corresponding Ghost game is forced to move to an accept state in the following move, which spells out a word and loses the game for that player. 
 
 For the other direction of the equivalence, a winning strategy in Ghost (played on the language of the NFA that corresponds to an instance of Generalized Geography) gives a winning strategy in Generalized Geography. The winning strategy in Ghost played on the NFA is to follow valid edges and to avoid ever getting to the accept state of some $G_x$, which corresponds to going back to the same vertex in Generalized Geography.
 
@@ -83,32 +128,64 @@ We consider the following instance of Ghost: The game is played over a given sub
 
 \begin{figure}
 \centering
-<<<<<<< HEAD
-\includegraphics[width=0.45\linewidth]{Ghost3.pdf}
-\caption{Labeling transitions with four-coloring}
-=======
 \includegraphics[width=0.4\linewidth]{Ghost3.pdf}
-\caption{Corresponding NFA.}
->>>>>>> 1d09971d0cabe3d110e167db116ddc379dbaa1ec
+\caption{Edge labelings based on a four-coloring of the vertices}
 \label{fig:reduction}
 \end{figure}
 
 	The German language allows nouns to be concatenated, so the subset of words that are accepted in the NFA are grammatically valid German words. Since the words are all of odd length, when the word finishes, the next player can pick the next word. This corresponds to picking an edge in the NFA, except each transition may take multiple turns. Also, since the starting letter of the words are different, once you start a word, the whole word is specified. This construction builds an NFA that accepts a subset of the words in the German language. 
 \end{proof}
+
 \section{Conclusion}
+\label{Conclusion}
 
 We determined that playing Ghost over regular languages is PSPACE-hard, and we used the same reduction structure to show that Ghost played over subsets of the German language is also PSPACE-hard. The first result is somewhat abstract, as Ghost is generally not played over arbitrary regular languages. However, the second result indicates that there may be other real-world languages that Ghost is hard to play over.
 
+\subsubsection*{Acknowledgments.} This paper began as a final project for the MIT class ``The Mathematics of Toys and Games", taught by Jayson Lynch and Robert Sloan and supervised by Erik D. Demaine. We thank them for helpful dicussions on this topic.
+
 \bibliography{references}
-\bibliographystyle{plain}
+\bibliographystyle{splncs}
+
+%\begin{thebibliography}{1}
+%
+%\bibitem{Bona}
+%M.~B{\'o}na.
+%\newblock {\em A Walk Through Combinatorics: An Introduction to Enumeration and
+%  Graph Theory}.
+%\newblock World Scientific, 2011.
+%
+%\bibitem{Uno}
+%Erik~D Demaine, Martin~L Demaine, Nicholas~JA Harvey, Ryuhei Uehara, Takeaki
+%  Uno, and Yushi Uno.
+%\newblock Uno is hard, even for a single player.
+%\newblock {\em Theoretical Computer Science}, 521:51--61, 2014.
+%
+%\bibitem{Hampath}
+%Michael~R. Garey and David~S. Johnson.
+%\newblock {\em Computers and Intractability; A Guide to the Theory of
+%  NP-Completeness}.
+%\newblock W. H. Freeman \& Co., New York, NY, USA, 1990.
+%
+%\bibitem{Games}
+%Robert~A Hearn and Erik~D Demaine.
+%\newblock {\em Games, Puzzles, and Computation}.
+%\newblock AK Peters, Limited, 2009.
+%
+%\bibitem{Sipser}
+%David Lichtenstein and Michael Sipser.
+%\newblock Go is polynomial-space hard.
+%\newblock {\em J. ACM}, 27(2):393--401, April 1980.
+%
+%\bibitem{Sipser2}
+%Michael Sipser.
+%\newblock {\em Introduction to the Theory of Computation}.
+%\newblock PWS Publishing Company, 1997.
+%
+%\bibitem{DominoPlayHistory}
+%{Stormdark I.P. and Media}.
+%\newblock Domino history.
+%\newblock \url{http://www.domino-play.com/History.htm}, 2010.
+%
+%\end{thebibliography}
 
 \end{document}
-
-
-
-
-
-
-
-
-
