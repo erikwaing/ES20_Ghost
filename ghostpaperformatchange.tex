@@ -119,6 +119,8 @@ Note that if the algorithm accepts, then there exists a branch in the computatio
 On the other hand, if the algorithm rejects, then it could mean one of two things. Either all the branches of the computation rejected, which means there was a losing strategy for player 1, or there were over $2^n+n$ moves made. 
 
 We note that if there were over $2^n+n$ moves made and another branch has not already accepted, then the game can continue on forever. This is because of the pumping lemma for regular languages. Since we had an NFA with $n$ states, there exists a DFA that accepts the same language with at most $2^n$ states, which means the pumping length is at most $2^n$. If we are currently playing a word fragment of a word in the language with more than $2^n$ letters, then that word can be ``pumped", which means that either another branch of computation must have covered it, or that player 2 chose to re-pump the word. If player 2 has re-pumped twice (hence the $2^n + n$), then player 2 can continue to re-pump forever to avoid losing. 
+
+The total space used is $O(n^2)$ for the NFA, $O(n)$ for the markers, and $O(n)$ for the digits of the counter. 
 \end{proof}
 
 \begin{theorem} Determining whether player 1 has a winning strategy when Ghost is played over regular languages is PSPACE-hard.
@@ -180,48 +182,6 @@ We determined that playing Ghost over regular languages is PSPACE-hard, and we u
 \subsubsection*{Acknowledgments.} This paper began as a final project for the MIT class ``The Mathematics of Toys and Games", taught by Jayson Lynch and Robert Sloan and supervised by Erik D. Demaine. We thank them for helpful dicussions on this topic.
 
 \bibliography{references}
-\bibliographystyle{splncs}
-
-%\begin{thebibliography}{1}
-%
-%\bibitem{Bona}
-%M.~B{\'o}na.
-%\newblock {\em A Walk Through Combinatorics: An Introduction to Enumeration and
-%  Graph Theory}.
-%\newblock World Scientific, 2011.
-%
-%\bibitem{Uno}
-%Erik~D Demaine, Martin~L Demaine, Nicholas~JA Harvey, Ryuhei Uehara, Takeaki
-%  Uno, and Yushi Uno.
-%\newblock Uno is hard, even for a single player.
-%\newblock {\em Theoretical Computer Science}, 521:51--61, 2014.
-%
-%\bibitem{Hampath}
-%Michael~R. Garey and David~S. Johnson.
-%\newblock {\em Computers and Intractability; A Guide to the Theory of
-%  NP-Completeness}.
-%\newblock W. H. Freeman \& Co., New York, NY, USA, 1990.
-%
-%\bibitem{Games}
-%Robert~A Hearn and Erik~D Demaine.
-%\newblock {\em Games, Puzzles, and Computation}.
-%\newblock AK Peters, Limited, 2009.
-%
-%\bibitem{Sipser}
-%David Lichtenstein and Michael Sipser.
-%\newblock Go is polynomial-space hard.
-%\newblock {\em J. ACM}, 27(2):393--401, April 1980.
-%
-%\bibitem{Sipser2}
-%Michael Sipser.
-%\newblock {\em Introduction to the Theory of Computation}.
-%\newblock PWS Publishing Company, 1997.
-%
-%\bibitem{DominoPlayHistory}
-%{Stormdark I.P. and Media}.
-%\newblock Domino history.
-%\newblock \url{http://www.domino-play.com/History.htm}, 2010.
-%
-%\end{thebibliography}
+\bibliographystyle{plain}
 
 \end{document}
