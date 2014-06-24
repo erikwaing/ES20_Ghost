@@ -107,20 +107,11 @@ Determining whether player 1 has a winning strategy when Ghost is player over re
 \end{theorem}
 
 \begin{proof}
-The following algorithm in NPSPACE will accept if and only if player 1 has a winning strategy.
+Suppose that the regular expression has length $n$, and that we can build an NFA with $m$ states were $m$ is a polynomial of $n$. We first claim that a winning strategy will take at most $m$ turns. This is because if we follow a game by keeping the markers on the current states in the NFA, then a winning strategy never goes through a loop. 
 
-Given a regular expression, first build the NFA that accepts that language with $n$ states, where $n$ is polynomial with the length of the regular expression. Then starting with a marker at the start node, alternate the following two steps:\\
-Step 1: non-deterministically pick a letter of the alphabet and place markers on whatever transitions with that letter where there currently are markers avoiding the accept state and remove the previous markers. \\
-Step 2: place markers on all states transitioning to the previous markers that are not accept states. \\
-If you cannot move any markers on step 2, then accept. Also, keep a counter of $n+1$ digits. If you ever cannot move any markers in step 1, then reject, or if the counter ever needs more digits, then reject.
+If there is a winning strategy that goes through a loop, then if the loop length is even, there was no need to go through the loop, if the loop length is odd, then the game will continue going through the loop forever since a symmetric situation will arise once the loop is over.
 
-Note that if the algorithm accepts, then there exists a branch in the computation tree where each non-deterministic choice corresponds to a letter that player 1 said. At each time player 2 moved, we maintained all choices player 2 could have made. So if at any point all of player 2's options are to say a letter that transitions to an accept state, then player 1 wins. 
-
-On the other hand, if the algorithm rejects, then it could mean one of two things. Either all the branches of the computation rejected, which means there was a losing strategy for player 1, or there were over $2^n+n$ moves made. 
-
-We note that if there were over $2^n+n$ moves made and another branch has not already accepted, then the game can continue on forever. This is because of the pumping lemma for regular languages. Since we had an NFA with $n$ states, there exists a DFA that accepts the same language with at most $2^n$ states, which means the pumping length is at most $2^n$. If we are currently playing a word fragment of a word in the language with more than $2^n$ letters, then that word can be ``pumped", which means that either another branch of computation must have covered it, or that player 2 chose to re-pump the word. If player 2 has re-pumped twice (hence the $2^n + n$), then player 2 can continue to re-pump forever to avoid losing. 
-
-The total space used is $O(n^2)$ for the NFA, $O(n)$ for the markers, and $O(n)$ for the digits of the counter. 
+Therefore, we can solve the game by a fully-quantified boolean formula where variables represent choices for the two players. We can check whether pairs of letters are said correctly and whether player 1 wins in a polynomially long formula. 
 \end{proof}
 
 \begin{theorem} Determining whether player 1 has a winning strategy when Ghost is played over regular languages is PSPACE-hard.
