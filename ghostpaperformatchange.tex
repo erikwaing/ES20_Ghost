@@ -79,7 +79,7 @@ The game continues until a valid word is formed, at which point the last player 
 
 	We consider a more rigid definition of the classic rules. In the version of the game we analyze, we do not allow players to ever make invalid moves or mistakes. We assume that each player knows all the words in the alphabet. This is a reasonable modification to make, as checking the validity of words can easily be done with a dictionary.
 
-	If the entire set of words is considered to be the input to the problem, we can build a game tree which is of polynomial size of the input. A minimax algorithm can find a winning strategy in time polynomial in the size of the input. Alan Frank and Randall Munroe have ``solved" the game by finding a winning strategy for the first player in the Official Scrabble Players Dictionary and on the Ubuntu dictionary. 
+	If the entire set of words is considered to be the input to the problem, we can build a game tree which is of polynomial size of the input. A minimax algorithm can find a winning strategy in time polynomial in the size of the input. Alan Frank and Randall Munroe have ``solved" the game by finding a winning strategy for the first player in the Official Scrabble Players Dictionary and on the Ubuntu dictionary \cite{ghostbusters} \cite{randall}. 
 
 	Thus, the game only becomes interesting from a computational standpoint when the number of words is large. This motivates the need to look at other ways of representing subsets of words. In this paper, we use regular expressions to represent sets of words that are much larger than the input size (the length of the regular expression). A regular expression can work like a dictionary which confirms whether words are in the language.
 
@@ -202,7 +202,7 @@ For example, suppose the regular expression was $a(b^* \cup cd)$, then the trans
 \end{proof}
 
 \begin{corollary}
-Superghost, Superduperghost, and Xghost are all PSPACE-hard when played in German.
+Superghost, Superduperghost, and Xghost are all PSPACE-hard when played in subsets of the German language.
 \end{corollary}
 
 \begin{proof}
