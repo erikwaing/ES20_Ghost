@@ -32,9 +32,9 @@
 
 \mainmatter  
 
-\title{Ghost Becomes Hard when Played in German}
+\title{Playing Ghost on Subsets of German is Hard}
 
-\titlerunning{Ghost Becomes Hard when Played in German}
+\titlerunning{Playing Ghost on Subsets of German is Hard}
 
 \author{Fermi Ma
 \and Matt Susskind \and Erik Waingarten}
@@ -59,46 +59,64 @@
 
 
 \begin{abstract}
-Ghost is hard
+
+Ghost is a popular word game played by two or more players. Players take turns adding a letter to the end of a word fragment, trying not to be the first to complete a valid word. We show that the game, when played on a regular language, is PSPACE-complete, and extend the result to three variants of the game. In addition, we take advantage of a quirk of the German language --- that German words can be concatenated together to form longer words --- to give a fun extension of our proof of PSPACE-hardness to subsets of the German language. 
 \end{abstract}
 
 \keywords{algorithmic combinatorial game theory, mathematical games and puzzles, computational complexity}
 
 \section{Introduction}
 
-	Ghost is a word game in which two players take turns adding a letter to the end of a word fragment, trying to not be the first to complete the word. The game is usually played by a group of over 2 people, usually on a long roadtrip. According to Wikipedia, the game has received some media attention. It has been referenced in several American television shows like a 1962 episode of ``Car 54, Where Are You?", a 2003 episode of Buffy The Vampire Slayer, and Ghostwriter. It has also appeared in the January 10, 1974 Doonesbury comic strip, Chapter 7 of Richard Bachman's ``The Long Walk", and ``The Deer Park" by Norman Mailer.
+	Ghost is a game typically played on a human language such as English. A player starts the game by picking a letter of the alphabet, and play continues as the players take turns adding letters to the end of the current string. At every point in time, the string of letters must be the prefix of some valid word, and if this is not the case, another player can make a challenge. Usually, the game is played with a score, where each loss gives a player a letter of the word ``Ghost", and thus the first person to lose five games loses the game.
 
-	Our first result is that given a regular language, it is PSPACE-complete to determine whether a given player has a winning strategy when playing with that language. We use the first result to prove an analogous result for a specific language. In particular, we show that when the game is played on subsets of the German language, it is PSPACE-complete to determine whether a given player has a winning strategy. The same results hold for common variations of the game.
+	In this paper, we analyze a simple version of the game where we assume each player has perfect knowledge of the dictionary, and no score is kept (only one round is played). If the entire dictionary of the game is given in unsimplified form, the game is considered to be solved; the game tree of all combinations can be searched for a winning strategy in polynomial time with a minimax algorithm (CITATION HERE). Thus, we consider a version of the game played on regular languages, as this allows a large input dictionary for the game to be given as a much smaller regular expression.
+
+%
+%Alan Frank and Randall Munroe have ``solved" the game by finding a winning strategy for the first player in the Official Scrabble Players Dictionary and on the Ubuntu dictionary \cite{ghostbusters} \cite{randall}. 
+
+
+	Our first result is that playing the classic version of Ghost on a regular language is PSPACE-complete. We also extend this result to three variants of ghost, namely Superghost, Superduperghost, and XGhost. Our second result is that playing Ghost on any subset of the German language given by a regular expression is also PSPACE-complete. We focus on the German language because it allows words to be concatenated together, a feature that drastically impacts play of games such as Ghost.
+
+%
+%	Ghost is a word game in which two players take turns adding a letter to the end of a word fragment, trying to not be the first to complete the word. The game is usually played by a group of over 2 people, usually on a long roadtrip. According to Wikipedia, the game has received some media attention. It has been referenced in several American television shows like a 1962 episode of ``Car 54, Where Are You?", a 2003 episode of Buffy The Vampire Slayer, and Ghostwriter. It has also appeared in the January 10, 1974 Doonesbury comic strip, Chapter 7 of Richard Bachman's ``The Long Walk", and ``The Deer Park" by Norman Mailer.
+%
+%	Our first result is that given a regular language, it is PSPACE-complete to determine whether a given player has a winning strategy when playing with that language. We use the first result to prove an analogous result for a specific language. In particular, we show that when the game is played on subsets of the German language, it is PSPACE-complete to determine whether a given player has a winning strategy. The same results hold for common variations of the game.
 
 \section{Game Definitions}
 \label{Game Definitions}
 
-\subsection{Classic Ghost}
+\subsection{Rules for the Classic Game}
 
-The game continues until a valid word is formed, at which point the last player to add a letter loses. At each turn, the current word fragment must be the prefix of some valid word. If a player believes that his/her opponent has made an invalid move (i.e. the move extends the word fragment so that it is no longer a valid prefix), he/she can use the turn to challenge the other player to name the full word. If the other player can name a valid word, he/she wins the game immediately, and otherwise the challenger wins. In addition, if both players are unaware that a word has just been completed, gameplay continues.
+	The game allows for two or more players, but we restrict our attention to the two-player version. One player starts the game by playing a letter, and then the players alternate adding letters until a valid word is formed. At each turn the current word fragment must be the prefix of some valid word, and thus playing a letter that does not give a word prefix is considered an invalid move. A player wins the game when his/her opponent completes a valid word. 
 
-	We consider a more rigid definition of the classic rules. In the version of the game we analyze, we do not allow players to ever make invalid moves or mistakes. We assume that each player knows all the words in the alphabet. This is a reasonable modification to make, as checking the validity of words can easily be done with a dictionary.
+% 
+%	Thus, the game only becomes interesting from a computational standpoint when the number of words is large. This motivates the need to look at other ways of representing subsets of words. In this paper, we use regular expressions to represent sets of words that are much larger than the input size (the length of the regular expression). A regular expression can work like a dictionary which confirms whether words are in the language.
 
-	If the entire set of words is considered to be the input to the problem, we can build a game tree which is of polynomial size of the input. A minimax algorithm can find a winning strategy in time polynomial in the size of the input. Alan Frank and Randall Munroe have ``solved" the game by finding a winning strategy for the first player in the Official Scrabble Players Dictionary and on the Ubuntu dictionary \cite{ghostbusters} \cite{randall}. 
+\subsection{Variants}
 
-	Thus, the game only becomes interesting from a computational standpoint when the number of words is large. This motivates the need to look at other ways of representing subsets of words. In this paper, we use regular expressions to represent sets of words that are much larger than the input size (the length of the regular expression). A regular expression can work like a dictionary which confirms whether words are in the language.
+There are some popular variants of the regular rules:
 
-\subsection{Variations}
+\textbf{Superghost}: Same as regular Ghost, but letters can also be added to the front of the word fragment.
 
-Some variations to the game are the following:
+\textbf{Superduperghost}: Same as Superghost, but before playing a letter, a player can choose to reverse the word fragment.
 
-\textbf{Superghost}: this variation is the same as classic ghost, but letters are allowed to be appended to the beginning or the end of the current word fragment.
+\textbf{Xghost}: Players can add letters anywhere in the word fragment, including between letters.
 
-\textbf{Superduperghost}: this variation is the same as superghost, but we also have the additional capability of reversing the word fragment.
+\subsection{Regular Expressions}
 
-\textbf{Xghost}: this variation is the same as superghost with the additional capability of adding letters to the middle of the word fragment.
+We assume the game is played on a dictionary defined by a regular expression. 
 
 \section{Hardness of Classic Ghost}
 \label{Hardness of Classic Ghost}
 
 We consider the following instance of the game:
 
+\vbox{
+\noindent
+\begin{quote}
 Given any regular expression $R$ and players 1 and 2, does player 1 have a winning strategy in Ghost when played in the language generated by $R$? Player 1 starts.
+\end{quote}
+}
 
 \begin{theorem}
 Determining whether player 1 has a winning strategy when Ghost is player over regular languages is in PSPACE. 
@@ -107,9 +125,9 @@ Determining whether player 1 has a winning strategy when Ghost is player over re
 \begin{proof}
 Suppose that the regular expression has length $n$, and that we can build an NFA with $m$ states were $m$ is a polynomial of $n$. We first claim that a winning strategy will take at most $m$ turns. This is because if we follow a game by keeping the markers on the current states in the NFA, then a winning strategy never goes through a loop. 
 
-If there is a winning strategy that goes through a loop, then if the loop length is even, there was no need to go through the loop, if the loop length is odd, then the game will continue going through the loop forever since a symmetric situation will arise once the loop is over.
+If there is a winning strategy that goes through a loop, then if the loop length is even, there was no need to go through the loop. If the loop length is odd, then the game will continue going through the loop forever since a symmetric situation will arise once the loop is over.
 
-Therefore, we can solve the game by a fully-quantified boolean formula where variables represent choices for the two players. We can check whether pairs of letters are said correctly and whether player 1 wins in a polynomially long formula. 
+Therefore, we can solve the game by a fully-quantified boolean formula where variables represent choices for the two players. We can check whether pairs of letters are said correctly and whether player 1 wins in a polynomially long formula. (SHOULD CITE TQBF hardness)
 \end{proof}
 
 \begin{theorem} Determining whether player 1 has a winning strategy when Ghost is played over regular languages is PSPACE-hard.
@@ -142,25 +160,6 @@ We claim that a winning strategy for Generalized Geography corresponds to a winn
 For the other direction of the equivalence, a winning strategy in Ghost (played on the language of the NFA that corresponds to an instance of Generalized Geography) gives a winning strategy in Generalized Geography. The winning strategy in Ghost played on the NFA is to follow valid edges and to avoid ever getting to the accept state of some $G_x$, which corresponds to going back to the same vertex in Generalized Geography.
 
 Thus, the proof follows. 
-\end{proof}
-
-It turns out that the idea behind the proof of Theorem 1 can be used to show that Ghost is PSPACE-hard when played on subsets of the German language. We choose to focus on the German language because in German, multiple nouns can always be concatenated together to make new nouns. For example, ``wort", ``band", and ``teil" are all valid German nouns, and thus concatenations such as “wortband” and “wortteilband” are also valid nouns \cite{german}. Therefore, we can describe subsets of the German language with regular expressions.
-
-We consider the following instance of Ghost: The game is played over a given subset of the German language. Does player 1 have a winning strategy if he/she is first to pick a letter?
-
-\begin{theorem}Determining whether player 1 has a winning strategy when Ghost is played over subsets of the German language is PSPACE-hard.
-\end{theorem}
-
-\begin{proof} The reduction is very similar in structure to the reduction used in the proof of Theorem 1. However, here we consider Planar Generalized Geography, which is still PSPACE-hard \cite{Sipser}. Given an instance of Planar Generalized Geography, we can four-color the graph in polynomial time \cite{planargraph}. Each edge is then labeled with the color of the vertex it points to. Given this labeling of the graph, we build a corresponding NFA following the procedure in the proof of Theorem 1. The only change we make is that the labels in the graph are mapped to German nouns of odd length that start with different letters. We choose the nouns ``krankenhaus" (hospital), ``wiedervereinigung" (reunification), ``tod" (death), and ``m{\"a}dchen" (girl). Thus, all edges that are colored one color will give transitions labeled with ``tod"��, for example. 
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.4\linewidth]{Ghost3.pdf}
-\caption{Edge labelings based on a four-coloring of the vertices}
-\label{fig:reduction}
-\end{figure}
-
-	The German language allows nouns to be concatenated, so the subset of words that are accepted in the NFA are grammatically valid German words. Since the words are all of odd length, when the word finishes, the next player can pick the next word. This corresponds to picking an edge in the NFA, except each transition may take multiple turns. Also, since the starting letter of the words are different, once you start a word, the whole word is specified. This construction builds an NFA that accepts a subset of the words in the German language. 
 \end{proof}
 
 \section{Variants}
@@ -202,11 +201,29 @@ For example, suppose the regular expression was $a(b^* \cup cd)$, then the trans
 \end{proof}
 
 \begin{corollary}
-Superghost, Superduperghost, and Xghost are all PSPACE-hard when played in subsets of the German language.
+Superghost, Superduperghost, and Xghost are all PSPACE-hard when played on subsets of the German language.
 \end{corollary}
 
 \begin{proof}
 Superghost and Superduperghost have the same reductions when played in German. Since the new symbol \# just becomes another German word of odd length with a different letter. Additionaly, since there is only one German word starting with a unique letter, if a letter is added to the middle, then the word is no longer a valid prefix. 
+\end{proof}
+
+\section{Playing on Subsets of German}
+
+\subsection{Concatenating Words}
+
+
+
+It turns out that the idea behind the proof of Theorem 1 can be used to show that Ghost is PSPACE-hard when played on subsets of the German language. We choose to focus on the German language because in German, multiple nouns can always be concatenated together to make new nouns. For example, ``wort", ``band", and ``teil" are all valid German nouns, and thus concatenations such as “wortband” and “wortteilband” are also valid nouns \cite{german}. Therefore, we can describe subsets of the German language with regular expressions.
+
+We consider the following instance of Ghost: The game is played over a given subset of the German language. Does player 1 have a winning strategy if he/she is first to pick a letter?
+
+\begin{theorem}Determining whether player 1 has a winning strategy when Ghost is played over subsets of the German language is PSPACE-hard.
+\end{theorem}
+
+\begin{proof} The reduction is very similar in structure to the reduction used in the proof of Theorem 1. However, here we consider Planar Generalized Geography, which is still PSPACE-hard \cite{Sipser}. Given an instance of Planar Generalized Geography, we can four-color the graph in polynomial time \cite{planargraph}. Each edge is then labeled with the color of the vertex it points to. Given this labeling of the graph, we build a corresponding NFA following the procedure in the proof of Theorem 1. The only change we make is that the labels in the graph are mapped to German nouns of odd length that start with different letters. We choose the nouns ``krankenhaus" (hospital), ``wiedervereinigung" (reunification), ``tod" (death), and ``m{\"a}dchen" (girl). Thus, all edges that are colored one color will give transitions labeled with ``tod"��, for example. 
+
+	The German language allows nouns to be concatenated, so the subset of words that are accepted in the NFA are grammatically valid German words. Since the words are all of odd length, when the word finishes, the next player can pick the next word. This corresponds to picking an edge in the NFA, except each transition may take multiple turns. Also, since the starting letter of the words are different, once you start a word, the whole word is specified. This construction builds an NFA that accepts a subset of the words in the German language. 
 \end{proof}
 
 \section{Conclusion}
