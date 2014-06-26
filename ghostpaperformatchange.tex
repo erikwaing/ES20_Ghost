@@ -32,9 +32,8 @@
 
 \mainmatter  
 
-\title{Playing Ghost on Subsets of German is Hard}
-
-\titlerunning{Playing Ghost on Subsets of German is Hard}
+\title{Ghost gets Harder when Played in German}
+\titlerunning{Ghost gets Harder when Played in German}
 
 \author{Fermi Ma
 \and Matt Susskind \and Erik Waingarten}
@@ -69,7 +68,7 @@ Ghost is a popular word game played by two or more players. Players take turns a
 
 	Ghost is a game typically played on a human language such as English. A player starts the game by picking a letter of the alphabet, and play continues as the players take turns adding letters to the end of the current string. At every point in time, the string of letters must be the prefix of some valid word, and if this is not the case, another player can make a challenge. Usually, the game is played with a score, where each loss gives a player a letter of the word ``Ghost", and thus the first person to lose five games loses the game.
 
-	In this paper, we analyze a simple version of the game where we assume each player has perfect knowledge of the dictionary, and no score is kept (only one round is played). If the entire dictionary of the game is given in unsimplified form, the game is considered to be solved; the game tree of all combinations can be searched for a winning strategy in polynomial time with a minimax algorithm (CITATION HERE). Thus, we consider a version of the game played on regular languages, as this allows a large input dictionary for the game to be given as a much smaller regular expression.
+	In this paper, we analyze a simple version of the game where we assume each player has perfect knowledge of the dictionary, and no score is kept (only one round is played). If the entire dictionary of the game is given in unsimplified form, the game is considered to be solved; the game tree of all combinations can be searched for a winning strategy in polynomial time with a minimax algorithm \cite{ghostbusters}\cite{randall}. Thus, we consider a version of the game played on regular languages, as this allows a large input dictionary for the game to be given as a much smaller regular expression.
 
 %
 %Alan Frank and Randall Munroe have ``solved" the game by finding a winning strategy for the first player in the Official Scrabble Players Dictionary and on the Ubuntu dictionary \cite{ghostbusters} \cite{randall}. 
@@ -127,7 +126,7 @@ Suppose that the regular expression has length $n$, and that we can build an NFA
 
 If there is a winning strategy that goes through a loop, then if the loop length is even, there was no need to go through the loop. If the loop length is odd, then the game will continue going through the loop forever since a symmetric situation will arise once the loop is over.
 
-Therefore, we can solve the game by a fully-quantified boolean formula where variables represent choices for the two players. We can check whether pairs of letters are said correctly and whether player 1 wins in a polynomially long formula. (SHOULD CITE TQBF hardness)
+Therefore, we can solve the game by a fully-quantified boolean formula where variables represent choices for the two players. We can check whether pairs of letters are said correctly and whether player 1 wins in a polynomially long formula \cite{theoryofcomp}. 
 \end{proof}
 
 \begin{theorem} Determining whether player 1 has a winning strategy when Ghost is played over regular languages is PSPACE-hard.
