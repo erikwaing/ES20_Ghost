@@ -101,6 +101,8 @@ There are some popular variants of the regular rules:
 
 \textbf{Xghost}: Players can add letters anywhere in the word fragment, including between letters.
 
+\textbf{Spook}: Players add letters to a bag of words, trying to avoid any permutation of the letters to form a word. 
+
 \subsection{Regular Expressions}
 
 We assume the game is played on a dictionary defined by a regular expression. 
@@ -165,7 +167,7 @@ Thus, the proof follows.
 \label{Variants}
 
 \begin{corollary}
-Determining whether player 1 has a winning strategy is in PSPACE in all mentioned variants of the game.
+Determining whether player 1 has a winning strategy is in PSPACE in Superghost, Superduperghost, and Xghost mentioned variants of the game.
 \end{corollary}
 
 \begin{proof}
@@ -197,6 +199,31 @@ We can use a similar reduction to the case with Superghost. Given a regular expr
 
 For example, suppose the regular expression was $a(b^* \cup cd)$, then the transformed expression is
 \[ @(\%a\&)((\%b\&)^* \cup (\%c\&)(\%d\&)) \]
+\end{proof}
+
+\begin{theorem}
+Determining whether player 1 has a winning strategy when Spook is played over regular languages is PSPACE-hard.
+\end{theorem}
+
+\begin{proof}
+This reduction is a bit different from the previous, since the order does not really matter. In fact, a short modification to this proof will also show PSPACE-hardness for the previous results; however, the previous proofs generalize to the German language nicer. 
+
+The reduction is from Generalized Geography. We will build a regular expression whose language is the words that represent an incorrect history for Generalized Geography. So given a graph $G = (V, E)$ where $|V| = n$, we will have a literal $v_i$ for $v \in V$ and $i \in [n]$. The literal $v_i$ will represent whether the token in Generalized Geography was played on $v$ at turn $i$. The regular expression will contain three parts:
+
+1. We need to check that nodes are only accesses once.
+\[ R_1 = \bigcup_{v\in V} \bigcup_{i,j\in [n]}(v_iv_j \Sigma^*) \]
+
+2. We need to check that only nodes with edges to them are accessed.
+\[ R_2 = \bigcup_{v, w \in V, (v,w) \notin E} \bigcup_{i \in [n-1]} (v_iw_{i+1}\Sigma^*) \]
+
+3. We need to check that the letters are placed in order.
+\[ R_3 = \bigcup_{v, w \in V} \bigcup_{i \in [n] - \{1\}} \left(v_i(\Sigma - \cup_{x \in V} x_{i-1})^* \right) \]
+
+So the expression 
+\[ R_1 \cup R_2 \cup R_3 \]
+makes the language of all invalid histories of Generalized Geography.
+
+This will ensure that the literals chosen by Spook can be arranged in a line that represents the game play of Generalized Geography. If player 1 wins the game of Spook, then its because player 2 was stuck and couldn't make a valid move. Note that the expression is polynomial length and can be written down in polynomial time. Therefore, the game is PSPACE-hard. 
 \end{proof}
 
 \begin{corollary}
